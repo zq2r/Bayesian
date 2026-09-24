@@ -1,0 +1,17 @@
+torch
+torchvision
+transformers
+deepspeed
+peft
+flash-attn
+accelerate
+datasets
+numpy
+Pillow
+opencv-python
+imageio
+decord
+timm
+einops
+sentencepiece
+wandb
