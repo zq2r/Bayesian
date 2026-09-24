@@ -1,13 +1,12 @@
 # BayesianPRM Training
 
-This directory contains the training code for BayesianPRM only. Training has
+This directory contains the training code for BayesianPRM. Training has
 two stages:
 
 1. `train_ensemble_prm.sh` trains the ensemble reward hypotheses.
 2. `train_bayesian_prm.sh` loads the ensemble checkpoint, freezes it, and
    trains the Bayesian belief head.
 
-Evaluation scripts, generated outputs, and datasets are intentionally omitted.
 The metadata JSON and image root are supplied externally through `META_PATH`.
 
 ## Requirements
