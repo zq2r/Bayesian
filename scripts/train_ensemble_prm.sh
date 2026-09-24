@@ -193,7 +193,7 @@ PER_DEVICE_BATCH_SIZE=${PER_DEVICE_BATCH_SIZE:-2}
 GRADIENT_ACC=$((BATCH_SIZE / PER_DEVICE_BATCH_SIZE / GPUS))
 
 META_PATH=${META_PATH:?Set META_PATH to the external VisualPRM metadata JSON.}
-MODEL_PATH=${MODEL_PATH:-"/inspire/hdd/global_user/zhouzhixiang-240107010008/qzj/model/${model_name}"}
+MODEL_PATH=${MODEL_PATH:?Set MODEL_PATH to the base model checkpoint directory.}
 DEEPSPEED_CONFIG=${DEEPSPEED_CONFIG:-"${REPO_ROOT}/configs/zero_stage3_config.json"}
 
 # =========================
@@ -237,7 +237,7 @@ if [ -d "${CUDA_CCCL_INCLUDE}" ]; then
   export CPLUS_INCLUDE_PATH="${CUDA_CCCL_INCLUDE}:${CPLUS_INCLUDE_PATH:-}"
 fi
 
-export TORCH_EXTENSIONS_DIR=${TORCH_EXTENSIONS_DIR:-/inspire/hdd/global_user/zhouzhixiang-240107010008/qzj/cache/torch_extensions}
+export TORCH_EXTENSIONS_DIR=${TORCH_EXTENSIONS_DIR:-"${OUTPUT_DIR}/torch_extensions"}
 mkdir -p "${TORCH_EXTENSIONS_DIR}"
 
 echo "========== Train Config =========="

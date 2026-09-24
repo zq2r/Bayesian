@@ -457,7 +457,7 @@ if [ -d "${CUDA_CCCL_INCLUDE}" ]; then
     export CPLUS_INCLUDE_PATH="${CUDA_CCCL_INCLUDE}:${CPLUS_INCLUDE_PATH:-}"
 fi
 
-export TORCH_EXTENSIONS_DIR=${TORCH_EXTENSIONS_DIR:-/inspire/hdd/global_user/zhouzhixiang-240107010008/qzj/cache/torch_extensions}
+export TORCH_EXTENSIONS_DIR=${TORCH_EXTENSIONS_DIR:-"${BAYESIAN_OUTPUT_DIR}/torch_extensions"}
 mkdir -p "${TORCH_EXTENSIONS_DIR}"
 
 # ============================================================
