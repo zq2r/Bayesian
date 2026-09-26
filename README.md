@@ -123,3 +123,25 @@ Input records must contain `solutions_splits` and aligned PRM scores. Add a
 `labels` list to compute accuracy; omit it when only selected candidates are
 needed. Set `MODEL`, `DATASET`, and implement `generate_candidates` when
 wiring task-specific generation.
+
+## Calibration Against Monte-Carlo Labels
+
+`eval/calibration.py` compares terminal BayesianPRM probabilities with the
+rollout success probability `K/N`. It reports Brier Score, Positive Brier
+Score, ECE, and AverageCE, plus the existing AdaptiveCE diagnostic. The
+prediction file can use the `prm_mu_rel` and `prm_scores` fields produced by
+inference; the latter is the conservatism-aware final prediction. The model
+and dataset are intentionally not loaded by this evaluator.
+
+```bash
+python eval/calibration.py \
+  --predictions /path/to/bayesian-inference.json \
+  --mc-labels /path/to/mc-labels.jsonl \
+  --output-json /path/to/calibration.json \
+  --output-csv /path/to/calibration.csv \
+  --num-bins 10
+```
+
+MC records require `prefix_id` and either `success_prob`,
+`target_success_prob`, `mc_correct`/`mc_total`, or `rollout_labels`. Prediction
+and MC prefix IDs are checked before any metric is computed.
