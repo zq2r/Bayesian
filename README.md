@@ -98,3 +98,28 @@ When conservatism is disabled, `alpha_post = alpha_rel`. The evaluator uses
 default. Use `--belief-use-conservatism true|false` or
 `--belief-conservatism-beta VALUE` to compare settings without retraining.
 Each output item records the effective setting and beta.
+
+## Test-Time Scaling
+
+`eval/test_time_scaling.py` evaluates best-of-N selection over an existing
+candidate pool. It accepts the `prm_scores` written by `process_reward.py`, or
+the Bayesian head-level fields `prm_mu_heads` and `prm_rel_weights`. The
+dataset and generation model are deliberately left as injection points; only
+candidate generation and PRM scoring need to be connected for a new task.
+
+The default protocol is the same 20-repeat random-subset evaluation used by
+the original TTS code. Every repeat stores selected candidate indices, and
+labeled input additionally reports selection accuracy and oracle pass rate.
+
+```bash
+python eval/test_time_scaling.py \
+  --input-json /path/to/scored-rollouts.json \
+  --output-json /path/to/tts-results.json \
+  --n-grid 1,2,4,8,16 \
+  --repeats 20
+```
+
+Input records must contain `solutions_splits` and aligned PRM scores. Add a
+`labels` list to compute accuracy; omit it when only selected candidates are
+needed. Set `MODEL`, `DATASET`, and implement `generate_candidates` when
+wiring task-specific generation.
